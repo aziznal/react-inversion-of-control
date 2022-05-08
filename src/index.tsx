@@ -1,15 +1,21 @@
+import 'reflect-metadata';
+import './index.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
+import App from './App';
+import { container } from './data/ioc';
+import reportWebVitals from './reportWebVitals';
+import { InversifyProvider } from './ui/ioc.react';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root') as HTMLElement
+    <React.StrictMode>
+        <InversifyProvider container={container}>
+            <App />
+        </InversifyProvider>
+    </React.StrictMode>,
+    document.getElementById('root') as HTMLElement
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,6 +1,50 @@
-# Getting Started with Create React App
+# IOC with React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+In this repo, I've implemented inversion of control in accordance with the SOLID
+principles in react. I've achieved this using inversifyJS and the context API in
+react. Specifically, I followed the following guide which proved to be very
+useful: [Dependency injection in React using
+InversifyJS](https://itnext.io/dependency-injection-in-react-using-inversifyjs-now-with-react-hooks-64f7f077cde6)
+
+I also attempt to follow an implementation of the clean architecture (uncle
+bob's version) by separating the app into three layers: Core, Data, and UI.
+
+### Core
+The app's business logic lives here. This app is a basic counter, so the files
+here represent what a counter is, what its usecases are as well as how the data
+flows through those usecases, and finally where we can access and modify the
+counter's value (i.e the counter repo).
+
+### Data
+This is where I implement abstract things I've defined in the ***Core*** layer,
+including Usecases, Repositories, etc..
+
+I've put the heart of my IoC implementation here. The file `ioc.ts` is where I
+define a `container` (from inversify) and I use this container to bind
+interfaces defined in ***Core*** to implementation made in ***Data***
+
+### UI
+This is pure react. It's what you'd usually expect. There is an extra file here,
+namely `ioc.react.tsx` which is how I use the context api to wrap my app with
+the logic that injects dependencies as they are called upon. Also, in this file,
+I define a hook that makes it (relatively) easy to inject dependencies into the
+component.
+
+## Some Useful Information
+I use typescript in this app because it's what I'm comfortable with. I don't believe dependency injection is possible in javascript in this same method but you're welcome to try.
+
+You'll notice in `package.json/scrips` that I've replaced the usual
+`react-scripts` with `react-app-rewired`. There is only one reason for this, and
+that reason is the unbelievable amount of spam warning messages that you'll
+receive due to inversifyJS having trouble creating source maps (most likely due
+to me using typescript).
+
+I've done some investigation, and people's solutions varied wildly from
+completely toggling off the generation of source maps to simply muting warning
+messages; I chose the latter, which is why you'll find a file named
+`config-overrides.js` in the root dir of the app. There, I've made a simple
+override such that source-map related warnings will NOT be displayed in the
+console. That is the only reason that I use `react-app-rewired`
 
 ## Available Scripts
 
@@ -13,34 +57,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

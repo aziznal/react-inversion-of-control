@@ -1,0 +1,15 @@
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(calc(2 * 360deg));
+    }
+}
+
+.loading {
+    animation-name: rotate;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.23, 1, 0.320, 1);
+}

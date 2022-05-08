@@ -3,28 +3,42 @@ import { BehaviorSubject } from 'rxjs';
 
 import { CounterRepo } from '../../core/counter/counter.repo';
 
+const COUNTER_LOCAL_STORAGE_KEY = 'counter';
+
 @injectable()
 export class CounterProvider implements CounterRepo {
-    static foo = 1;
-
     counter$: BehaviorSubject<number>;
 
-    private counter: number;
+    private _counter: number;
+
+    private get counter() {
+        return this._counter;
+    }
+
+    private set counter(value: number) {
+        this._counter = value;
+
+        localStorage.setItem(COUNTER_LOCAL_STORAGE_KEY, String(this._counter));
+
+        this.counter$.next(this.counter);
+    }
 
     constructor() {
-        console.log('Counter Provider Constructor Called');
-
-        this.counter = 10;
-        this.counter$ = new BehaviorSubject(this.counter);
+        this._counter = this.getCounterFromLocalStorage();
+        this.counter$ = new BehaviorSubject(this._counter);
     }
 
-    increment(): void {
-        this.counter++;
-        this.counter$.next(this.counter);
+    setCounter(value: number): void {
+        this.counter = value;
     }
 
-    decrement(): void {
-        this.counter--;
-        this.counter$.next(this.counter);
+    private getCounterFromLocalStorage() {
+        const counter = localStorage.getItem(COUNTER_LOCAL_STORAGE_KEY);
+
+        if (counter === undefined || counter === null) {
+            localStorage.setItem(COUNTER_LOCAL_STORAGE_KEY, '0');
+        }
+
+        return Number(counter);
     }
 }

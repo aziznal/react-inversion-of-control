@@ -1,5 +1,7 @@
 {
-    "cSpell.words": [
-        "inversify"
-    ]
+    "cSpell.words": ["inversify"],
+
+    "[*]": {
+        "editor.tabSize": 4
+    }
 }

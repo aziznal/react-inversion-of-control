@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
-export interface CounterRepo {
-    counter$: BehaviorSubject<number>;
-    increment(): void;
-    decrement(): void;
+export abstract class CounterRepo {
+    abstract counter$: BehaviorSubject<number>;
+    
+    abstract setCounter(value: number): void;
 }

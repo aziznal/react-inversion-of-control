@@ -1,4 +1,4 @@
-# IOC with React
+# IOC with React (Uses React 16)
 
 In this repo, I've implemented inversion of control in accordance with the SOLID
 principles in react. I've achieved this using inversifyJS and the context API in
